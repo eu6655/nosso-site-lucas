@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sessão LoveFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #ffd1dc, #fff0f5);
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      padding-top: 60px;
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3em;
+      text-align: center;
+      color: #d6336c;
+      margin-top: 30px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+    .card {
+      background: linear-gradient(to bottom right, #fff, #ffeaf0);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 300px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+    }
+    .card-content {
+      padding: 15px;
+    }
+    .card-content h2 {
+      color: #d6336c;
+      font-size: 1.5em;
+      margin: 0 0 10px;
+    }
+    .card-content p {
+      margin: 5px 0;
+    }
+    .card-content .frase {
+      font-style: italic;
+      color: #a83256;
+      margin-top: 10px;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: rgba(214, 51, 108, 0.95);
+      padding: 10px 0;
+      text-align: center;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+    .horarios {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .horario-btn {
+      background-color: #d6336c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s;
+      font-size: 0.9em;
+    }
+    .horario-btn:hover {
+      background-color: #b52b5a;
+    }
+    .horario-btn:active {
+      transform: scale(0.95);
+    }
+    .horario-btn.selecionado {
+      background-color: #ff99bb;
+    }
+    @media (max-width: 600px) {
+      .card {
+        width: 90%;
+      }
+    }
+    @media (max-width: 400px) {
+      .card-content h2 {
+        font-size: 1.2em;
+      }
+      .horario-btn {
+        font-size: 0.8em;
+        padding: 4px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="index.html">⬅ Voltar para o Início</a>
+  </div>
+
+  <h1>🎬 Sessão LoveFlix</h1>
+  <div class="container">
+    <!-- Cards dos filmes -->
+
+    
+    <div class="card">
+      <img src="imagens/filme1.jpg" alt="Filme 1">
+      <div class="card-content">
+        <h2>Missão: Te Amar</h2>
+        <p><strong>Gênero:</strong> Super-herói, Romance, Ação</p>
+        <p><strong>Classificação:</strong> Livre</p>
+        <p><strong>Sinopse:</strong> Explosão, lasers e beijos: o universo nunca foi tão romântico! Ana e Lucas são os heróis dessa aventura cheia de amor e superpoderes que vão conquistar seu coração.</p>
+        <div class="horarios"><button class="horario-btn">18:00</button><button class="horario-btn">20:00</button></div>
+        <p class="frase">"Explosão, lasers e beijos, o universo nunca foi tão romântico"</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="imagens/filme2.jpg" alt="Filme 2">
+      <div class="card-content">
+        <h2>Perigo: TPM</h2>
+        <p><strong>Gênero:</strong> Terror, Comédia</p>
+        <p><strong>Classificação:</strong> 12 anos</p>
+        <p><strong>Sinopse:</strong> Nada é mais assustador do que esquecer o chocolate. Ana e Lucas enfrentam uma tempestade emocional cheia de sustos e risadas nessa noite de TPM.</p>
+        <div class="horarios"><button class="horario-btn">17:00</button><button class="horario-btn">21:30</button></div>
+        <p class="frase">"NADA É MAIS ASSUSTADOR DO QUE ESQUECER O CHOCOLATE."</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="imagens/filme3.jpg" alt="Filme 3">
+      <div class="card-content">
+        <h2>Investigando o Amor</h2>
+        <p><strong>Gênero:</strong> Policial, Romance</p>
+        <p><strong>Classificação:</strong> 14 anos</p>
+        <p><strong>Sinopse:</strong> Ana e Lucas trabalham juntos em casos difíceis, mas o maior mistério é o amor que surge entre eles. Uma investigação cheia de emoções e descobertas.</p>
+        <div class="horarios"><button class="horario-btn">15:30</button><button class="horario-btn">19:00</button></div>
+        <p class="frase">"O amor entrou sem mandado e fez a maior bagunça."</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="imagens/filme4.jpg" alt="Filme 4">
+      <div class="card-content">
+        <h2>Beijo ou Mordida?</h2>
+        <p><strong>Gênero:</strong> Apocalipse Zumbi, Romance</p>
+        <p><strong>Classificação:</strong> 14 anos</p>
+        <p><strong>Sinopse:</strong> Infectado, Lucas sente o fim se aproximando. Ana tem uma missão impossível: entregar um beijo de cura antes que seja tarde demais. Em meio ao apocalipse, o amor é a única arma que resta.</p>
+        <div class="horarios"><button class="horario-btn">16:45</button><button class="horario-btn">22:00</button></div>
+        <p class="frase">"Sem beijinho há 3 dias... olha o que aconteceu."</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="imagens/filme5.jpg" alt="Filme 5">
+      <div class="card-content">
+        <h2>Spoiler: A Gente Se Beija no Final</h2>
+        <p><strong>Gênero:</strong> Comédia Romântica</p>
+        <p><strong>Classificação:</strong> Livre</p>
+        <p><strong>Sinopse:</strong> Nesta comédia romântica cheia de reviravoltas, Ana e Lucas enfrentam altos e baixos, mas uma coisa não muda: o beijo no final.</p>
+        <div class="horarios"><button class="horario-btn">18:15</button><button class="horario-btn">23:00</button></div>
+        <p class="frase">"O final é sempre com beijo."</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="imagens/filme6.jpg" alt="Filme 6">
+      <div class="card-content">
+        <h2>Perdidos no Loveverso</h2>
+        <p><strong>Gênero:</strong> Ficção Científica, Animação, Romance</p>
+        <p><strong>Classificação:</strong> Livre</p>
+        <p><strong>Sinopse:</strong> Ana e Lucas são astronautas atrapalhados que exploram o universo em sua nave colorida. Em meio à confusão cósmica, descobrem o amor.</p>
+        <div class="horarios"><button class="horario-btn">19:15</button><button class="horario-btn">21:45</button></div>
+        <p class="frase">"Encontrando o amor em cada estrela."</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="imagens/filme7.jpg" alt="Filme 7">
+      <div class="card-content">
+        <h2>Tesouro é Tu</h2>
+        <p><strong>Gênero:</strong> Aventura, Animação, Romance, Piratas</p>
+        <p><strong>Classificação:</strong> Livre</p>
+        <p><strong>Sinopse:</strong> Ana é uma pirata atrapalhada, em busca de tesouros. Com Lucas, descobre que o maior tesouro é o amor verdadeiro.</p>
+        <div class="horarios"><button class="horario-btn">20:30</button><button class="horario-btn">00:00</button></div>
+        <p class="frase">"No fim, o maior tesouro é você."</p>
+      </div>
+    </div>
+    
+  </div>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('.horario-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.horario-btn').forEach(b => b.classList.remove('selecionado'));
+        btn.classList.add('selecionado');
+      });
+    });
+  </script>
+</body>
+</html>

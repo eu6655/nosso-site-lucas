@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Dia dos Namorados</title>
+  <!-- Favicon -->
+  <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&family=Courgette&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos gerais */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #ffd1dc, #fff0f5);
+      font-family: 'Open Sans', sans-serif;
+      text-align: center;
+      color: #333;
+      overflow-x: hidden;
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3em;
+      margin-top: 30px;
+      color: #d6336c;
+    }
+    /* Imagem principal com transição suave */
+    #imagem-principal {
+      max-width: 300px;
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 0 30px rgba(214, 51, 108, 0.4);
+      animation: pulse 2s infinite alternate;
+      transition: opacity 0.5s ease-in-out;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.02); }
+    }
+    .texto {
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    #mensagem-escrita {
+      white-space: pre-wrap;
+      font-family: 'Courgette', cursive;
+      font-size: 22px;
+      line-height: 1.8;
+      color: #333;
+      text-align: left;
+    }
+    /* Botão para completar a mensagem */
+    #botao-pular {
+      margin: 20px;
+      padding: 10px 20px;
+      background: #d6336c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .player-musica {
+      margin: 30px auto;
+      max-width: 320px;
+      background-color: #fff;
+      padding: 15px 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .player-musica h3 {
+      margin: 0 0 10px;
+      font-size: 1.2em;
+      color: #d6336c;
+    }
+    .contador {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #d6336c;
+    }
+    .coracoes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .coracao {
+      position: absolute;
+      color: #ff5e7e;
+      font-size: 20px;
+      animation: flutuar 10s linear infinite;
+    }
+    @keyframes flutuar {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    .linha-do-tempo {
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(214, 51, 108, 0.2);
+    }
+    .linha-do-tempo h2 {
+      text-align: center;
+      color: #d6336c;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+    }
+    .linha-do-tempo ul {
+      list-style: none;
+      padding: 0;
+      position: relative;
+    }
+    .linha-do-tempo ul::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #d6336c;
+    }
+    .linha-do-tempo li {
+      position: relative;
+      margin: 20px 0 20px 50px;
+      padding-left: 20px;
+      border-left: 2px solid transparent;
+      text-align: left;
+    }
+    .linha-do-tempo .data {
+      font-weight: bold;
+      color: #d6336c;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .linha-do-tempo img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 15px;
+      margin-top: 10px;
+      box-shadow: 0 0 10px rgba(214, 51, 108, 0.2);
+    }
+    /* Seção da constelação */
+    #constelacao {
+      width: 100%;
+      height: 400px;
+      background: #0b0c10;
+      position: relative;
+      overflow: hidden;
+      border-top: 3px solid #d6336c;
+      margin-top: 60px;
+    }
+    #constelacao canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .titulo-constelacao {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      z-index: 1;
+    }
+    /* Botão de mensagem final */
+    #botao-final {
+      margin: 30px;
+      padding: 12px 24px;
+      background: #ff5e7e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+    #mensagem-final {
+      display: none;
+      font-size: 1.3em;
+      color: #d6336c;
+      margin: 20px;
+    }
+    /* Responsividade */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+      .texto {
+        padding: 10px;
+        font-size: 18px;
+      }
+      .linha-do-tempo img {
+        max-width: 100%;
+      }
+      .player-musica {
+        padding: 10px;
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Feliz Dia dos Namorados, meu amor!</h1>
+
+  <img id="imagem-principal" src="imagens/12222.jpg" alt="Foto do casal">
+
+  <div class="player-musica">
+    <h3>🎶 Até que enfim Canção de Ferrugem</h3>
+    <audio id="musica" controls loop>
+      <source src="musica.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio :(
+    </audio>c
+  </div>
+
+  <div class="contador" id="contador">Estamos juntos há...</div>
+
+  <div class="texto">
+    <p id="mensagem-escrita"></p>
+    <button id="botao-pular">Pular digitação</button>
+  </div>
+
+  <section class="linha-do-tempo">
+    <h2>💞 Nossas Memórias</h2>
+    <ul>
+      <li><span class="data">2023</span><p>Achava que não ia dar certo... mas olha só onde estamos 🥹</p></li>
+      <li><span class="data">Fevereiro 2024</span><p>Te vi... mas ainda bateu aquela timidez 🙈</p></li>
+      <li><span class="data">Abril 2024</span><p>As conversas começaram... bom e o coração ja falava algo 💬💖</p></li>
+      <li><span class="data">19 de Abril 2024</span>
+          <p>A famosa foto zoada do aniversário 😂</p>
+          <img src="imagens/fotozoada1.jpg" alt="Foto zoada do aniversário">
+      </li>
+      <li><span class="data">2024</span><p>Viramos melhores amigos, vc era meu porto seguro 🫶</p></li>
+      <li><span class="data">2024</span><p>Passamos por momentos difíceis... mas nunca desisti de vc  💪❤️</p></li>
+      <li><span class="data">2024</span><p>Eu criei sentimentos, e aí... ferrou 😅</p></li>
+      <li><span class="data">2024</span><p>A confissão embaraçosa veio kkkkkk 🙈💌</p></li>
+      <li><span class="data">Fim de 2024</span><p>A escola acabou... mas a gente se aproximou ainda mais por mensagem 📱✨</p></li>
+      <li><span class="data">2025</span><p>A gente começou a namorar, e agora... até o fim do mundo juntos 💑🌍</p></li>
+    </ul>
+  
+
+<!-- Início da Sessão LoveFlix -->
+<section id="filmes-interativos" style="padding: 50px 20px; background: #fff0f5; text-align: center;"> 
+  <h2 style="font-family:'Great Vibes', cursive; font-size: 2.5em; color:#d6336c;">🎥 Sessão LoveFlix</h2>
+  <a href="filmes.html" style="display:inline-block; padding: 12px 24px; font-size: 1.1em; background: #d6336c; color: white; border: none; border-radius: 8px; cursor: pointer; text-decoration: none;">Vamos assistir um filme?</a>
+</section>
+<!-- Fim da Sessão LoveFlix -->
+
+
+</section>
+
+  <!-- Seção da constelação -->
+  <section id="coisas-que-amo">
+  <h2>💘 10 Coisas Que Amo em Você</h2>
+  <div class="frase-maquina" id="frase-maquina" style="opacity: 0; transition: opacity 1s ease-in-out; font-size: 22px; line-height: 1.6; min-height: 120px; margin-bottom: 20px; color: #333; white-space: pre-wrap;"></div>
+  <button id="btn-proxima" style="padding: 10px 20px; font-size: 1em; background: #d6336c; color: white; border: none; border-radius: 8px; cursor: pointer;">Próxima 💖</button>
+</section>
+<section id="constelacao">
+    <div class="titulo-constelacao">🌌 Nosso Amor nas Estrelas</div>
+    <canvas id="canvasConstelacao"></canvas>
+  </section>
+
+  
+<!-- Botão de mensagem final centralizado e funcional -->
+<button id="botao-final">Te amo ❤️</button>
+<div id="mensagem-final">Te amo mil milhões!</div>
+<div class="coracoes" id="coracoes"></div>
+
+<style>
+  #botao-final {
+    display: block;
+    margin: 30px auto;
+    padding: 12px 24px;
+    background: #ff5e7e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botaoFinal = document.getElementById("botao-final");
+    const mensagemFinal = document.getElementById("mensagem-final");
+
+    botaoFinal.addEventListener("click", function () {
+      mensagemFinal.style.display = "block";
+    });
+  });
+</script>
+
+<script>
+  /***** Variáveis e Seletores *****/
+  const imagens = [
+    'imagens/12222.jpg',
+    'imagens/1444444.jpg',
+    'imagens/155555.jpg',
+    'imagens/1666666.jpg',
+    'imagens/nova1.jpg',
+    'imagens/nova2.jpg',
+    'imagens/nova3.jpg'
+  ];
+
+
+    let indiceAtual = 0;
+    const imagemPrincipal = document.getElementById('imagem-principal');
+
+    /***** Carrossel com transição *****/
+    setInterval(() => {
+      imagemPrincipal.style.opacity = 0;
+      setTimeout(() => {
+        indiceAtual = (indiceAtual + 1) % imagens.length;
+        imagemPrincipal.src = imagens[indiceAtual];
+        imagemPrincipal.style.opacity = 1;
+      }, 500);
+    }, 5000);
+
+    /***** Animação dos corações *****/
+    const coracoes = document.getElementById("coracoes");
+    function criarCoracao() {
+      const coracao = document.createElement("div");
+      coracao.className = "coracao";
+      coracao.style.left = Math.random() * 100 + "vw";
+      coracao.style.fontSize = (Math.random() * 20 + 10) + "px";
+      coracao.style.animationDuration = (Math.random() * 5 + 5) + "s";
+      coracao.innerHTML = "❤️";
+      coracoes.appendChild(coracao);
+      setTimeout(() => coracoes.removeChild(coracao), 10000);
+    }
+    setInterval(criarCoracao, 300);
+
+    /***** Contador de tempo *****/
+    function atualizarContador() {
+      // Início da contagem
+      const inicio = new Date("2025-01-26T00:00:00");
+      const agora = new Date();
+      const diff = agora - inicio;
+      const segundos = Math.floor(diff / 1000);
+      const minutos = Math.floor(segundos / 60);
+      const horas = Math.floor(minutos / 60);
+      const dias = Math.floor(horas / 24);
+      const semanas = Math.floor(dias / 7);
+      const meses = Math.floor(dias / 30.44);
+      const restoHoras = horas % 24;
+      const restoMinutos = minutos % 60;
+      const restoSegundos = segundos % 60;
+      const contadorTexto = `Estamos juntos há ${meses} meses, ${semanas} semanas, ${dias} dias, ${restoHoras} horas, ${restoMinutos} minutos e ${restoSegundos} segundos ❤️`;
+      document.getElementById("contador").textContent = contadorTexto;
+    }
+    setInterval(atualizarContador, 1000);
+    atualizarContador();
+
+    /***** Efeito de digitação na mensagem *****/
+    const mensagem = `Feliz Dia dos Namorados, meu amor ❤️
+
+Hoje é um dia especial, mas a verdade é que todos os dias ao seu lado são especiais pra mim. Você chegou na minha vida de um jeito tão natural, tão lindo, que nem percebi o quanto já estava mudando tudo ao meu redor.
+
+Com você, aprendi o que é amar de verdade, um amor tão aconchegante, que entende, que apoia mesmo quando as coisas não estão fáceis.
+
+Você é meu mundo, minha melhor companhia, minha parceira nas risadas e nos momentos difíceis. É aquela pessoa que me faz sorrir só de pensar, que me dá força quando tudo parece complicado e que, mesmo com seus próprios desafios, nunca deixa de estar ao meu lado.
+
+Eu quero agradecer por cada instante que você me deu, por cada palavra de carinho, por cada gesto de cuidado que mostra o quanto você se importa. Eu sei que não sou perfeito, mas saiba que eu te amo mil milhões, que vai muito além das palavras.
+
+Quando penso no futuro, só consigo imaginar você comigo, caminhando, construindo, aprendendo e vivendo tudo isso junto.
+
+Quero estar presente nos seus sonhos, nas suas conquistas e até nas suas preocupações, porque o que importa pra mim é fazer você feliz, meu amor.
+
+Você colore meus dias, alegra minhas manhãs e acalma minhas noites. É com você que eu quero dividir tudo, dos momentos simples aos mais intensos.
+
+Obrigado por ser quem você é e por me deixar ser quem eu sou ao seu lado.`;
+    let i = 0;
+    const elementoMensagem = document.getElementById("mensagem-escrita");
+    let digitarInterval;
+
+    function escreverMensagem() {
+      if (i < mensagem.length) {
+        elementoMensagem.innerHTML += mensagem[i] === '\n' ? '<br><br>' : mensagem[i];
+        i++;
+      } else {
+        clearInterval(digitarInterval);
+      }
+    }
+    // Inicia a digitação
+    digitarInterval = setInterval(escreverMensagem, 40);
+
+    // Botão para pular a digitação
+    document.getElementById("botao-pular").addEventListener("click", () => {
+      clearInterval(digitarInterval);
+      elementoMensagem.innerHTML = mensagem.replace(/\n/g, '<br><br>');
+    });
+
+    const canvas = document.getElementById('canvasConstelacao');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    const nome1 = "Lucas";
+    const nome2 = "Ana";
+
+    const estrelasCamadas = [[], [], []];
+    const velocidades = [0.3, 0.6, 1.0];
+
+    for (let c = 0; c < 3; c++) {
+      for (let i = 0; i < 50; i++) {
+        estrelasCamadas[c].push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.5,
+          o: Math.random()
+        });
+      }
+    }
+
+    const pontos = [
+      { x: canvas.width * 0.3, y: canvas.height * 0.5, nome: nome1 },
+      { x: canvas.width * 0.7, y: canvas.height * 0.5, nome: nome2 }
+    ];
+
+    let estrelasCadentes = [];
+    function criarEstrelaCadente() {
+      estrelasCadentes.push({
+        x: Math.random() * canvas.width,
+        y: 0,
+        tamanho: Math.random() * 2 + 2,
+        velocidadeX: Math.random() * 4 + 2,
+        velocidadeY: Math.random() * 4 + 2,
+        opacidade: 1,
+        rastro: []
+      });
+    }
+    setInterval(criarEstrelaCadente, 3000);
+
+    let brilho = 0.3;
+    let crescendo = true;
+
+    function desenharNebulosa(x, y, raio, cor) {
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, raio);
+      grad.addColorStop(0, cor.replace('0.2', '0.4'));
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(x, y, raio, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function desenhar() {
+      const gradiente = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradiente.addColorStop(0, "#0b0c10");
+      gradiente.addColorStop(1, "#1c1f26");
+      ctx.fillStyle = gradiente;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      desenharNebulosa(canvas.width * 0.3, canvas.height * 0.3, 120, 'rgba(255, 182, 193, 0.2)');
+      desenharNebulosa(canvas.width * 0.7, canvas.height * 0.6, 150, 'rgba(173, 216, 230, 0.2)');
+      desenharNebulosa(canvas.width * 0.5, canvas.height * 0.2, 100, 'rgba(216, 191, 216, 0.2)');
+
+      estrelasCamadas.forEach((camada, idx) => {
+        camada.forEach(e => {
+          e.x += velocidades[idx] * 0.05;
+          if (e.x > canvas.width) e.x = 0;
+          ctx.beginPath();
+          ctx.arc(e.x, e.y, e.r, 0, 2 * Math.PI);
+          ctx.fillStyle = `rgba(255, 255, 255, ${e.o})`;
+          ctx.fill();
+        });
+      });
+
+      ctx.beginPath();
+      ctx.moveTo(pontos[0].x, pontos[0].y);
+      ctx.lineTo(pontos[1].x, pontos[1].y);
+      ctx.strokeStyle = '#ff5e7e';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      brilho += crescendo ? 0.01 : -0.01;
+      if (brilho >= 1) crescendo = false;
+      if (brilho <= 0.3) crescendo = true;
+
+      ctx.font = '20px Courgette';
+      ctx.fillStyle = `rgba(255, 255, 255, ${brilho})`;
+      pontos.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillText(p.nome, p.x - 20, p.y - 10);
+      });
+
+      estrelasCadentes.forEach((e, index) => {
+        e.rastro.unshift({ x: e.x, y: e.y, op: e.opacidade });
+        if (e.rastro.length > 10) e.rastro.pop();
+
+        for (let i = 0; i < e.rastro.length - 1; i++) {
+          const atual = e.rastro[i];
+          const prox = e.rastro[i + 1];
+          ctx.beginPath();
+          ctx.moveTo(atual.x, atual.y);
+          ctx.lineTo(prox.x, prox.y);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${atual.op * 0.5})`;
+          ctx.lineWidth = 2 * (1 - i / e.rastro.length);
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.tamanho, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${e.opacidade})`;
+        ctx.fill();
+
+        e.x += e.velocidadeX;
+        e.y += e.velocidadeY;
+        e.opacidade -= 0.01;
+
+        if (e.opacidade <= 0) estrelasCadentes.splice(index, 1);
+      });
+
+      requestAnimationFrame(desenhar);
+    }
+    desenhar();
+  </script>
+</body>
+</html>
+
+  </script>
+
+<script>
+window.addEventListener('DOMContentLoaded', function () {
+  const frasesDeAmor = [
+    "1. Sua risada que ilumina qualquer lugar",
+    "2. Quando sonha alto e me leva junto",
+    "3. O seu abraço que encaixa perfeitamente no meu, como se fosse feito pra mim",
+    "4. A sua coragem, ai eu vejo o quanto você é forte",
+    "5. Como seus olhos brilham quando você fala de algo que ama",
+    "6. O seu jeitinho de cuidar de mim, mesmo quando você finge que tá brava",
+    "7. O jeito que você transforma dias comuns em momentos inesquecíveis, só por estar presente",
+    "8. Como você me incentiva a ser melhor, só com o seu amor e apoio",
+    "9. O conforto que eu sinto só de estar perto de você, como se tudo finalmente estivesse no lugar certo",
+    "10. Como você consegue me entender só com um olhar, sem precisar dizer nada."
+  ];
+  let fraseAtual = 0;
+  const fraseElemento = document.getElementById("frase-maquina");
+  const botaoProxima = document.getElementById("btn-proxima");
+
+  botaoProxima.addEventListener("click", () => {
+    fraseElemento.style.opacity = 0;
+    setTimeout(() => {
+      if (fraseAtual < frasesDeAmor.length) {
+        fraseElemento.textContent = frasesDeAmor[fraseAtual];
+        fraseElemento.style.opacity = 1;
+        fraseAtual++;
+        if (fraseAtual === frasesDeAmor.length) {
+          botaoProxima.textContent = "❤️ Fim ❤️";
+          botaoProxima.disabled = true;
+        }
+      }
+    }, 300);
+  });
+});
+</script>
+
+<!-- Botões para quebra-cabeça e quiz -->
+<div style="position: fixed; bottom: 10px; right: 10px; display: flex; gap: 10px;">
+  <a href="quebracaca.html" style="
+    font-size: 0.9em;
+    color: #aaa;
+    text-decoration: none;
+    background: transparent;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.3s ease;
+    border: 1px solid transparent;
+  " onmouseover="this.style.color='#d6336c'" onmouseout="this.style.color='#aaa'">
+    quebra-cabeça
+  </a>
+  <a href="quiz.html" style="
+    font-size: 0.9em;
+    color: #aaa;
+    text-decoration: none;
+    background: transparent;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.3s ease;
+    border: 1px solid transparent;
+  " onmouseover="this.style.color='#d6336c'" onmouseout="this.style.color='#aaa'">
+    quiz do amor
+  </a>
+</div>
+
+
+</body>
+</html>

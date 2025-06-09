@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz do Amor 💘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #ffe6f0, #ffd6e0);
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      color: #4b004b;
+    }
+
+    h1 {
+      color: #d6336c;
+      font-size: 2.2em;
+    }
+
+    .pergunta {
+      margin: 20px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    button {
+      background: #ff4d88;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e60073;
+    }
+
+    #feedback {
+      font-weight: bold;
+      margin: 10px auto;
+      font-size: 1.2em;
+    }
+
+    #resultado {
+      font-size: 1.2em;
+      color: #4b004b;
+      margin-top: 30px;
+      display: none;
+    }
+
+    #certificado {
+      display: none;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border: 5px double #d6336c;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    #certificado h2 {
+      color: #d6336c;
+      font-size: 1.8em;
+    }
+
+    #certificado p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    #baixarPDF {
+      margin-top: 20px;
+      background-color: #c2185b;
+    }
+
+    #btn-voltar {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      background: #d6336c;
+      color: white;
+      padding: 10px 14px;
+      font-size: 1.2em;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+
+    #btn-voltar:hover {
+      background: #b52b5a;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8em;
+      }
+
+      button {
+        font-size: 0.95em;
+        padding: 10px 20px;
+      }
+
+      #certificado p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz do Amor 💘</h1>
+
+  <div class="pergunta" id="quiz">
+    <p id="pergunta"></p>
+    <div id="opcoes"></div>
+  </div>
+
+  <div id="feedback"></div>
+  <div id="resultado"></div>
+
+  <div id="certificado">
+    <h2>Certificado de Casal Perfeito 💖</h2>
+    <p>Parabéns! Você acertou mais de 80% do quiz.</p>
+    <p>Isso só prova o quanto vocês se conhecem e se amam! 🥰</p>
+    <button id="baixarPDF">Baixar Certificado ❤️</button>
+  </div>
+
+  <a href="index.html" id="btn-voltar" title="Voltar para o início">🏠</a>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    const perguntas = [
+      { texto: "Qual emoji mais representa vocês dois?", opcoes: ["❤️", "💖", "😍", "💘"], correta: 3 },
+      { texto: "Qual a minha cor favorita?", opcoes: ["Azul", "Rosa", "Verde", "Preto"], correta: 0 },
+      { texto: "Qual o meu signo?", opcoes: ["Touro", "Sagitário", "Áries", "Virgem"], correta: 1 },
+      { texto: "Quantos meses estamos juntos?", opcoes: ["2 meses", "3 meses", "4 meses", "5 meses"], correta: 2 },
+      { texto: "Qual foi a data do primeiro beijo?", opcoes: ["1 de fevereiro", "2 de fevereiro", "3 de fevereiro", "14 de fevereiro"], correta: 1 },
+      { texto: "Quem é mais ciumento?", opcoes: ["Ela", "Ele", "Ambos", "Ninguém"], correta: 2 },
+      { texto: "Qual o apelido carinhoso que eu mais uso?", opcoes: ["Mozão", "Princesa", "Amorzinho", "Neném"], correta: 1 },
+      { texto: "Qual o meu chocolate favorito?", opcoes: ["Ouro Branco", "Bis", "KitKat", "Prestígio"], correta: 1 },
+      { texto: "Qual é o meu maior sonho?", opcoes: ["Ter uma família", "Viajar o mundo", "Comprar uma casa", "Trabalhar com tecnologia"], correta: 0 },
+      { texto: "Se eu pudesse te dar um  presente desses, o que seria?", opcoes: ["Aliança", "Flores", "Um urso gigante", "Um Stitch gigante"], correta: 3 }
+    ];
+
+    let indice = 0;
+    let acertos = 0;
+
+    function mostrarPergunta() {
+      const pergunta = perguntas[indice];
+      document.getElementById("pergunta").textContent = pergunta.texto;
+      const opcoesDiv = document.getElementById("opcoes");
+      opcoesDiv.innerHTML = "";
+      document.getElementById("feedback").textContent = "";
+
+      pergunta.opcoes.forEach((opcao, i) => {
+        const botao = document.createElement("button");
+        botao.textContent = opcao;
+        botao.onclick = () => verificarResposta(i);
+        opcoesDiv.appendChild(botao);
+      });
+    }
+
+    function verificarResposta(resposta) {
+      const correta = perguntas[indice].correta;
+      const feedback = document.getElementById("feedback");
+
+      if (resposta === correta) {
+        acertos++;
+        feedback.textContent = "✅ Você acertou!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "❌ Você errou!";
+        feedback.style.color = "red";
+      }
+
+      setTimeout(() => {
+        indice++;
+        if (indice < perguntas.length) {
+          mostrarPergunta();
+        } else {
+          document.getElementById("quiz").style.display = 'none';
+          document.getElementById("resultado").textContent = `Você acertou ${acertos} de ${perguntas.length} perguntas!`;
+          document.getElementById("resultado").style.display = 'block';
+
+          if (acertos >= 8) {
+            document.getElementById("certificado").style.display = 'block';
+          }
+        }
+      }, 1000);
+    }
+
+    document.getElementById("baixarPDF").addEventListener("click", () => {
+      const element = document.getElementById("certificado");
+      const opt = {
+        margin: 1,
+        filename: 'certificado-do-amor.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().from(element).set(opt).save();
+    });
+
+    mostrarPergunta();
+  </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Nosso Quebra-Cabeça</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #ffeaea;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+    h1 {
+      margin-top: 20px;
+      color: #c14444;
+      text-align: center;
+    }
+    #puzzle {
+      display: grid;
+      grid-template-columns: repeat(4, 300px);
+      grid-template-rows: repeat(4, 300px);
+      gap: 2px;
+      margin-top: 20px;
+    }
+    .piece {
+      width: 300px;
+      height: 300px;
+      cursor: move;
+      border: 1px solid #ccc;
+      object-fit: cover;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 22px;
+      color: #c14444;
+      display: none;
+      text-align: center;
+      max-width: 90%;
+    }
+    #shuffleBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #c14444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #btn-voltar {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      background: #d6336c;
+      color: white;
+      padding: 10px 14px;
+      font-size: 1.2em;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    #btn-voltar:hover {
+      background: #b52b5a;
+    }
+    @media (max-width: 500px) {
+      #puzzle {
+        grid-template-columns: repeat(4, 80px);
+        grid-template-rows: repeat(4, 80px);
+      }
+      .piece {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Monte o quebra-cabeça 💖</h1>
+  <div id="puzzle"></div>
+  <button id="shuffleBtn">Embaralhar novamente 🔄</button>
+  <div id="message">✨ Parabéns! Você montou tudo certinho.<br>
+    Assim como esse quebra-cabeça, cada pedacinho da nossa história se encaixa perfeitamente. Te amo! 💕
+  </div>
+
+  <a href="index.html" id="btn-voltar" title="Voltar para o início">🏠</a>
+
+  <script>
+    const order = [];
+    const gridSize = 4;
+    for (let row = 0; row < gridSize; row++) {
+      for (let col = 0; col < gridSize; col++) {
+        order.push(`quebraca/piece_${row}_${col}.jpg`);
+      }
+    }
+
+    const puzzle = document.getElementById("puzzle");
+    const message = document.getElementById("message");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+
+    let dragged;
+
+    function renderPuzzle(shuffle = true) {
+      puzzle.innerHTML = "";
+      message.style.display = "none";
+
+      const pieces = shuffle ? order.slice().sort(() => Math.random() - 0.5) : order;
+
+      pieces.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.className = "piece";
+        img.draggable = true;
+        puzzle.appendChild(img);
+
+        img.addEventListener('dragstart', e => dragged = e.target);
+        img.addEventListener('dragover', e => e.preventDefault());
+        img.addEventListener('drop', e => {
+          e.preventDefault();
+          if (dragged !== e.target) {
+            const temp = dragged.src;
+            dragged.src = e.target.src;
+            e.target.src = temp;
+            checkPuzzle();
+          }
+        });
+      });
+    }
+
+    function checkPuzzle() {
+      const pieces = document.querySelectorAll(".piece");
+      const current = Array.from(pieces).map(p => p.src.split("/").pop());
+      if (JSON.stringify(current) === JSON.stringify(order.map(path => path.split("/").pop()))) {
+        message.style.display = "block";
+      }
+    }
+
+    shuffleBtn.addEventListener("click", () => renderPuzzle(true));
+    renderPuzzle(true);
+  </script>
+</body>
+</html>
