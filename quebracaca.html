@@ -102,7 +102,8 @@
     const message = document.getElementById("message");
     const shuffleBtn = document.getElementById("shuffleBtn");
 
-    let dragged;
+    let dragged = null;
+    let selectedPiece = null;
 
     function renderPuzzle(shuffle = true) {
       puzzle.innerHTML = "";
@@ -117,14 +118,34 @@
         img.draggable = true;
         puzzle.appendChild(img);
 
-        img.addEventListener('dragstart', e => dragged = e.target);
-        img.addEventListener('dragover', e => e.preventDefault());
-        img.addEventListener('drop', e => {
+        // Mouse: arrastar e soltar
+        img.addEventListener("dragstart", e => dragged = e.target);
+        img.addEventListener("dragover", e => e.preventDefault());
+        img.addEventListener("drop", e => {
           e.preventDefault();
           if (dragged !== e.target) {
             const temp = dragged.src;
             dragged.src = e.target.src;
             e.target.src = temp;
+            checkPuzzle();
+          }
+        });
+
+        // Toque: tocar em duas peças para trocar
+        img.addEventListener("touchstart", e => {
+          e.preventDefault();
+          if (!selectedPiece) {
+            selectedPiece = e.target;
+            selectedPiece.style.outline = "3px solid #c14444";
+          } else if (selectedPiece === e.target) {
+            selectedPiece.style.outline = "none";
+            selectedPiece = null;
+          } else {
+            const temp = selectedPiece.src;
+            selectedPiece.src = e.target.src;
+            e.target.src = temp;
+            selectedPiece.style.outline = "none";
+            selectedPiece = null;
             checkPuzzle();
           }
         });
